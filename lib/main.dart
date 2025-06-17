@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'features/splash/presentation/views/splash_view.dart';
 
@@ -9,13 +10,19 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Auvnet assignment',
-      home: const SplashView(),
+    return ScreenUtilInit(
+      // Design size from Figma (standard mobile design)
+      designSize: const Size(375, 812),
+      builder: (context, child) {
+        return MaterialApp(
+          title: 'E-commerce App',
+          debugShowCheckedModeBanner: false,
+          home: child,
+        );
+      },
+      child: const SplashView(), // Your initial screen
     );
   }
 }
