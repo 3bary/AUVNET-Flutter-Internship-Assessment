@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'features/splash/presentation/views/splash_view.dart';
 
@@ -19,6 +20,10 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           title: 'E-commerce App',
           debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            useMaterial3: true,
+            textTheme: GoogleFonts.rubikTextTheme(),
+          ),
           home: child,
         );
       },
