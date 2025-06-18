@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "857824543481",
+    "project_id": "auvnet-app",
+    "storage_bucket": "auvnet-app.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857824543481:android:f9be2a52a6be7b10255828",
+        "android_client_info": {
+          "package_name": "com.example.auvnet_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyBQnKni-XzOWhfW4540ktR3l3cs8ECdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
