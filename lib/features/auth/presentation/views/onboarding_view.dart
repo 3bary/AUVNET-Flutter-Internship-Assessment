@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/assets.dart';
 import '../../data/models/onboarding_data.dart';
+import 'login_view.dart';
 
 class OnboardingView extends StatefulWidget {
   const OnboardingView({super.key});
@@ -215,6 +216,10 @@ class _OnboardingViewState extends State<OnboardingView> {
     // Handle onboarding completion
     // Navigate to main app screen
     print('Onboarding completed!');
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginView()),
+    );
     // Example: Navigator.pushReplacementNamed(context, '/main');
   }
 }
