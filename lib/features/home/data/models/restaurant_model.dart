@@ -4,7 +4,7 @@ class RestaurantModel {
   final String logoUrl;
   final int deliveryTimeMinutes;
 
-  RestaurantModel({
+  const RestaurantModel({
     required this.id,
     required this.name,
     required this.logoUrl,
@@ -13,9 +13,11 @@ class RestaurantModel {
 
   factory RestaurantModel.fromJson(Map<String, dynamic> json) =>
       RestaurantModel(
-        id: json['id'],
-        name: json['name'],
-        logoUrl: json['logoUrl'],
-        deliveryTimeMinutes: json['deliveryTimeMinutes'],
+        id: json['id'] ?? '',
+        name: json['name'] ?? 'Unknown Restaurant',
+        logoUrl: json['logoUrl'] ?? '',
+        deliveryTimeMinutes: json['deliveryTimeMinutes'] is int 
+            ? json['deliveryTimeMinutes'] 
+            : 30, // Default to 30 minutes
       );
 }

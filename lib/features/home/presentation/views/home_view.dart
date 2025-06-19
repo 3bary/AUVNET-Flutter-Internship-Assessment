@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/models/restaurant_model.dart';
 import '../../data/models/service_model.dart';
+import '../../data/repos/home_repo.dart';
 import '../view_model/home_bloc/home_bloc.dart';
 
 class HomeView extends StatelessWidget {
@@ -12,47 +15,57 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          HomeBloc(RepositoryProvider.of(context))..add(LoadHomeData()),
-      child: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state.status == HomeStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+          HomeBloc(HomeRepository(firestore: FirebaseFirestore.instance))
+            ..add(LoadHomeData()),
+      child: const HomeViewContent(),
+    );
+  }
+}
 
-          if (state.status == HomeStatus.failure) {
-            return Center(child: Text('Error: ${state.errorMessage}'));
-          }
+class HomeViewContent extends StatelessWidget {
+  const HomeViewContent({super.key});
 
-          return Scaffold(
-            backgroundColor: Colors.grey[50],
-            body: SafeArea(
-              child: RefreshIndicator(
-                onRefresh: () async {
-                  context.read<HomeBloc>().add(LoadHomeData());
-                },
-                child: ListView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  children: [
-                    _buildHeader(),
-                    const SizedBox(height: 16),
-                    _buildServices(context, state.services),
-                    const SizedBox(height: 24),
-                    _buildCouponCard(),
-                    const SizedBox(height: 24),
-                    _buildShortcuts(),
-                    const SizedBox(height: 24),
-                    _buildPromoBanner(),
-                    const SizedBox(height: 24),
-                    _buildPopularRestaurants(context, state.restaurants),
-                    const SizedBox(height: 32),
-                  ],
-                ),
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.grey[50],
+      body: SafeArea(
+        child: BlocBuilder<HomeBloc, HomeState>(
+          builder: (context, state) {
+            if (state.status == HomeStatus.loading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state.status == HomeStatus.failure) {
+              return Center(child: Text('Error: ${state.errorMessage}'));
+            }
+
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<HomeBloc>().add(LoadHomeData());
+              },
+              child: ListView(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                children: [
+                  _buildHeader(),
+                  SizedBox(height: 16.h),
+                  _buildServices(context, state.services),
+                  SizedBox(height: 24.h),
+                  _buildCouponCard(),
+                  SizedBox(height: 24.h),
+                  _buildShortcuts(),
+                  SizedBox(height: 24.h),
+                  _buildPromoBanner(),
+                  SizedBox(height: 24.h),
+                  _buildPopularRestaurants(context, state.restaurants),
+                  SizedBox(height: 32.h),
+                ],
               ),
-            ),
-            bottomNavigationBar: _buildBottomNavigationBar(),
-          );
-        },
+            );
+          },
+        ),
       ),
+      bottomNavigationBar: _buildBottomNavigationBar(),
     );
   }
 
@@ -64,28 +77,32 @@ class HomeView extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.w),
       child: Row(
         children: [
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Delivering to", style: TextStyle(color: Colors.white70)),
+                Text(
+                  "Delivering to",
+                  style: TextStyle(color: Colors.white70, fontSize: 12.sp),
+                ),
                 Text(
                   "Al Satwa, 81A Street",
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
+                    fontSize: 14.sp,
                   ),
                 ),
-                SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 Text(
                   "Hi hepa!",
                   style: TextStyle(
-                    fontSize: 24,
+                    fontSize: 24.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -94,10 +111,8 @@ class HomeView extends StatelessWidget {
             ),
           ),
           CircleAvatar(
-            radius: 30,
-            backgroundImage: AssetImage(
-              "assets/user.jpg",
-            ), // replace with NetworkImage or your asset
+            radius: 30.r,
+            backgroundImage: AssetImage("assets/user.jpg"),
           ),
         ],
       ),
@@ -106,38 +121,44 @@ class HomeView extends StatelessWidget {
 
   Widget _buildServices(BuildContext context, List<ServiceModel> services) {
     return SizedBox(
-      height: 140,
+      height: 140.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: services.length,
         itemBuilder: (context, index) {
           final service = services[index];
           return SizedBox(
-            width: 120,
+            width: 120.w,
             child: Card(
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(12.w),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Icon(
                       _getServiceIcon(service.title),
-                      size: 32,
+                      size: 32.sp,
                       color: Colors.deepPurple,
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     Text(
-                      service.discount as String,
-                      style: const TextStyle(color: Colors.deepPurple),
+                      "${service.discount}",
+                      style: TextStyle(
+                        color: Colors.deepPurple,
+                        fontSize: 12.sp,
+                      ),
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Text(
                       service.title,
                       textAlign: TextAlign.center,
-                      style: const TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 13.sp,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -147,7 +168,7 @@ class HomeView extends StatelessWidget {
             ),
           );
         },
-        separatorBuilder: (_, _) => const SizedBox(width: 12),
+        separatorBuilder: (_, _) => SizedBox(width: 12.w),
       ),
     );
   }
@@ -167,18 +188,21 @@ class HomeView extends StatelessWidget {
 
   Widget _buildCouponCard() {
     return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       child: ListTile(
         leading: Icon(
           Icons.confirmation_number,
-          size: 32,
+          size: 32.sp,
           color: Colors.deepPurple,
         ),
         title: Text(
           "Got a code?",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14.sp),
         ),
-        subtitle: Text("Add your code and save on your order"),
+        subtitle: Text(
+          "Add your code and save on your order",
+          style: TextStyle(fontSize: 12.sp),
+        ),
       ),
     );
   }
@@ -193,7 +217,7 @@ class HomeView extends StatelessWidget {
     ];
 
     return SizedBox(
-      height: 100,
+      height: 100.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: shortcuts.length,
@@ -202,23 +226,23 @@ class HomeView extends StatelessWidget {
           return Column(
             children: [
               CircleAvatar(
-                radius: 30,
+                radius: 30.r,
                 backgroundColor: Colors.deepPurple[50],
                 child: Icon(item['icon'] as IconData, color: Colors.deepPurple),
               ),
-              SizedBox(height: 8),
-              Text(item['label']!, style: TextStyle(fontSize: 12)),
+              SizedBox(height: 8.h),
+              Text(item['label']!, style: TextStyle(fontSize: 12.sp)),
             ],
           );
         },
-        separatorBuilder: (_, _) => SizedBox(width: 16),
+        separatorBuilder: (_, _) => SizedBox(width: 16.w),
       ),
     );
   }
 
   Widget _buildPromoBanner() {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(16.r),
       child: Image.asset('assets/krispy_kreme_banner.jpg', fit: BoxFit.cover),
     );
   }
@@ -230,48 +254,49 @@ class HomeView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Popular restaurants nearby",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
         ),
-        const SizedBox(height: 12),
+        SizedBox(height: 12.h),
         SizedBox(
-          height: 120,
+          height: 120.h,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             itemCount: restaurants.length,
             itemBuilder: (context, index) {
               final restaurant = restaurants[index];
               return SizedBox(
-                width: 100,
+                width: 100.w,
                 child: Column(
                   children: [
                     CircleAvatar(
-                      radius: 28,
+                      radius: 28.r,
                       backgroundColor: Colors.white,
                       backgroundImage: restaurant.logoUrl.isNotEmpty
-                          ? NetworkImage(restaurant.logoUrl) as ImageProvider
+                          ? NetworkImage(restaurant.logoUrl)
                           : const AssetImage(
-                              'assets/restaurant_placeholder.png',
-                            ),
+                                  'assets/restaurant_placeholder.png',
+                                )
+                                as ImageProvider,
                     ),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Text(
                       restaurant.name,
-                      style: const TextStyle(fontSize: 12),
+                      style: TextStyle(fontSize: 12.sp),
                       maxLines: 2,
                       textAlign: TextAlign.center,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       '${restaurant.deliveryTimeMinutes} mins',
-                      style: const TextStyle(fontSize: 10, color: Colors.grey),
+                      style: TextStyle(fontSize: 10.sp, color: Colors.grey),
                     ),
                   ],
                 ),
               );
             },
-            separatorBuilder: (_, _) => const SizedBox(width: 16),
+            separatorBuilder: (_, _) => SizedBox(width: 16.w),
           ),
         ),
       ],
@@ -283,7 +308,7 @@ class HomeView extends StatelessWidget {
       currentIndex: 0,
       selectedItemColor: Colors.deepPurple,
       unselectedItemColor: Colors.grey,
-      items: [
+      items: const [
         BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
         BottomNavigationBarItem(
           icon: Icon(Icons.grid_view),
