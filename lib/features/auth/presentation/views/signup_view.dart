@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/assets.dart';
+import '../view_model/auth_bloc/auth_bloc.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -26,124 +28,150 @@ class _SignUpViewState extends State<SignUpView> {
     super.dispose();
   }
 
+  void _onSignUpPressed(BuildContext context) {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+    final confirmPassword = _confirmPasswordController.text.trim();
+
+    if (password != confirmPassword) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
+      return;
+    }
+
+    context.read<AuthBloc>().add(AuthSignupRequested(email, password));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
-          child: Column(
-            children: [
-              SizedBox(height: 60.h),
+    return BlocListener<AuthBloc, AuthState>(
+      listenWhen: (previous, current) => previous.status != current.status,
+      listener: (context, state) {
+        if (state.status == AuthStatus.failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage ?? 'Signup failed')),
+          );
+        } else if (state.status == AuthStatus.authenticated) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Signup successful')));
+          Navigator.pop(context); // navigate to login or home
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            child: Column(
+              children: [
+                SizedBox(height: 60.h),
+                Image.asset(kAppLogo, width: 336.w, height: 336.h),
 
-              Image.asset(kAppLogo, width: 336.w, height: 336.h),
+                _buildInputField(
+                  controller: _emailController,
+                  hintText: 'mail',
+                  icon: Icons.mail_outline,
+                ),
 
-              _buildInputField(
-                controller: _emailController,
-                hintText: 'mail',
-                icon: Icons.mail_outline,
-              ),
+                SizedBox(height: 16.h),
 
-              SizedBox(height: 16.h),
-
-              _buildInputField(
-                controller: _passwordController,
-                hintText: 'password',
-                icon: Icons.lock_outline,
-                isPassword: true,
-                isVisible: _isPasswordVisible,
-                toggleVisibility: () {
-                  setState(() {
-                    _isPasswordVisible = !_isPasswordVisible;
-                  });
-                },
-              ),
-
-              SizedBox(height: 16.h),
-
-              _buildInputField(
-                controller: _confirmPasswordController,
-                hintText: 'confirm password',
-                icon: Icons.lock_outline,
-                isPassword: true,
-                isVisible: _isConfirmPasswordVisible,
-                toggleVisibility: () {
-                  setState(() {
-                    _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-                  });
-                },
-              ),
-
-              SizedBox(height: 32.h),
-
-              // Sign Up Button
-              SizedBox(
-                width: double.infinity,
-                height: 56.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Handle sign up logic here
-                    if (_passwordController.text !=
-                        _confirmPasswordController.text) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Passwords do not match')),
-                      );
-                    } else {
-                      print('Email: ${_emailController.text}');
-                      print('Password: ${_passwordController.text}');
-                      // Navigate or sign up logic
-                    }
+                _buildInputField(
+                  controller: _passwordController,
+                  hintText: 'password',
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  isVisible: _isPasswordVisible,
+                  toggleVisibility: () {
+                    setState(() {
+                      _isPasswordVisible = !_isPasswordVisible;
+                    });
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF8A2BE2),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                  ),
+                ),
+
+                SizedBox(height: 16.h),
+
+                _buildInputField(
+                  controller: _confirmPasswordController,
+                  hintText: 'confirm password',
+                  icon: Icons.lock_outline,
+                  isPassword: true,
+                  isVisible: _isConfirmPasswordVisible,
+                  toggleVisibility: () {
+                    setState(() {
+                      _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
+                    });
+                  },
+                ),
+
+                SizedBox(height: 32.h),
+
+                // Sign Up Button
+                BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    final isLoading = state.status == AuthStatus.loading;
+
+                    return SizedBox(
+                      width: double.infinity,
+                      height: 56.h,
+                      child: ElevatedButton(
+                        onPressed: isLoading
+                            ? null
+                            : () => _onSignUpPressed(context),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF8A2BE2),
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.r),
+                          ),
+                        ),
+                        child: isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : Text(
+                                'Sign Up',
+                                style: TextStyle(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                      ),
+                    );
+                  },
+                ),
+
+                SizedBox(height: 24.h),
+
+                // Already have an account
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
                   child: Text(
-                    'Sign Up',
+                    'Already have an account? Log in',
                     style: TextStyle(
+                      color: const Color(0xFF2196F3),
                       fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
-              ),
 
-              SizedBox(height: 24.h),
-
-              // Already have an account
-              TextButton(
-                onPressed: () {
-                  // Navigate to login
-                  print('Navigate to login');
-                },
-                child: Text(
-                  'Already have an account? Log in',
-                  style: TextStyle(
-                    color: Color(0xFF2196F3),
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
+                SizedBox(height: 40.h),
+                Container(
+                  width: 134.w,
+                  height: 5.h,
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(2.5.r),
                   ),
                 ),
-              ),
-
-              const Spacer(flex: 1),
-
-              Container(
-                width: 134.w,
-                height: 5.h,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(2.5.r),
-                ),
-              ),
-
-              SizedBox(height: 8.h),
-            ],
+                SizedBox(height: 8.h),
+              ],
+            ),
           ),
         ),
       ),

@@ -1,3 +1,4 @@
+// lib/core/services/firebase_auth_service.dart
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthService {
@@ -21,6 +22,10 @@ class FirebaseAuthService {
 
   Future<void> logout() async {
     await _firebaseAuth.signOut();
+  }
+
+  Future<void> sendPasswordResetEmail(String email) async {
+    await _firebaseAuth.sendPasswordResetEmail(email: email);
   }
 
   User? get currentUser => _firebaseAuth.currentUser;

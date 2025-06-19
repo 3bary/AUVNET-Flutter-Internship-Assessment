@@ -1,8 +1,11 @@
 import 'package:auvnet_app/features/auth/presentation/views/signup_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/assets.dart';
+import '../../../home/presentation/views/home_view.dart';
+import '../view_model/auth_bloc/auth_bloc.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -25,100 +28,131 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.0.w),
-          child: Column(
-            children: [
-              SizedBox(height: 80.h),
-              Image.asset(kAppLogo, width: 336.w, height: 336.h),
-              // Input Fields
-              _buildInputField(
-                controller: _emailController,
-                hintText: 'mail',
-                icon: Icons.mail_outline,
-              ),
+    return BlocConsumer<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state.status == AuthStatus.loading) {
+          // Optional: Show loading overlay/snackbar if needed
+        } else if (state.status == AuthStatus.authenticated) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(const SnackBar(content: Text('Login Successful')));
+          // Navigate to home or dashboard screen
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeView()),
+          );
+        } else if (state.status == AuthStatus.failure) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage ?? 'Login Failed')),
+          );
+        }
+      },
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.0.w),
+              child: Column(
+                children: [
+                  SizedBox(height: 80.h),
+                  Image.asset(kAppLogo, width: 336.w, height: 336.h),
 
-              SizedBox(height: 16.h),
+                  _buildInputField(
+                    controller: _emailController,
+                    hintText: 'mail',
+                    icon: Icons.mail_outline,
+                  ),
+                  SizedBox(height: 16.h),
 
-              _buildInputField(
-                controller: _passwordController,
-                hintText: 'password',
-                icon: Icons.lock_outline,
-                isPassword: true,
-              ),
+                  _buildInputField(
+                    controller: _passwordController,
+                    hintText: 'password',
+                    icon: Icons.lock_outline,
+                    isPassword: true,
+                  ),
+                  SizedBox(height: 32.h),
 
-              SizedBox(height: 32.h),
-
-              // Login Button
-              SizedBox(
-                width: double.infinity,
-                height: 56.h,
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Handle login logic here
-                    print('Email: ${_emailController.text}');
-                    print('Password: ${_passwordController.text}');
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF8A2BE2),
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
+                  // Login Button
+                  SizedBox(
+                    width: double.infinity,
+                    height: 56.h,
+                    child: ElevatedButton(
+                      onPressed: state.status == AuthStatus.loading
+                          ? null
+                          : () {
+                              final email = _emailController.text.trim();
+                              final password = _passwordController.text.trim();
+                              if (email.isNotEmpty && password.isNotEmpty) {
+                                context.read<AuthBloc>().add(
+                                  AuthLoginRequested(email, password),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Fill all fields'),
+                                  ),
+                                );
+                              }
+                            },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF8A2BE2),
+                        foregroundColor: Colors.white,
+                        elevation: 0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                      ),
+                      child: state.status == AuthStatus.loading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              'Log in',
+                              style: TextStyle(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                     ),
                   ),
-                  child: Text(
-                    'Log in',
-                    style: TextStyle(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
+
+                  SizedBox(height: 24.h),
+
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SignUpView(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Create an account',
+                      style: TextStyle(
+                        color: const Color(0xFF2196F3),
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
-                ),
-              ),
 
-              SizedBox(height: 24.h),
+                  SizedBox(height: 40.h),
 
-              // Create Account Link
-              TextButton(
-                onPressed: () {
-                  // Handle create account navigation
-                  print('Navigate to create account');
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignUpView()),
-                  );
-                },
-                child: Text(
-                  'Create an account',
-                  style: TextStyle(
-                    color: Color(0xFF2196F3),
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
+                  Container(
+                    width: 134.w,
+                    height: 5.h,
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(2.5.r),
+                    ),
                   ),
-                ),
+                  SizedBox(height: 8.h),
+                ],
               ),
-
-              const Spacer(flex: 1),
-
-              // Bottom indicator (home indicator simulation)
-              Container(
-                width: 134.w,
-                height: 5.h,
-                decoration: BoxDecoration(
-                  color: Colors.black,
-                  borderRadius: BorderRadius.circular(2.5.r),
-                ),
-              ),
-
-              SizedBox(height: 8.h),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 
@@ -132,7 +166,7 @@ class _LoginViewState extends State<LoginView> {
       height: 56.h,
       decoration: BoxDecoration(
         color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
       ),
       child: TextField(
         controller: controller,
@@ -159,8 +193,8 @@ class _LoginViewState extends State<LoginView> {
               : null,
           border: InputBorder.none,
           contentPadding: EdgeInsets.symmetric(
-            horizontal: 16.h,
-            vertical: 16.w,
+            horizontal: 16.w,
+            vertical: 16.h,
           ),
         ),
       ),

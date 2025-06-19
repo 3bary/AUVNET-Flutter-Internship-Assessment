@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../core/utils/assets.dart';
+import '../../../../auth/presentation/view_model/auth_bloc/auth_bloc.dart';
 import '../../../../auth/presentation/views/onboarding_view.dart';
+import '../../../../home/presentation/views/home_view.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -20,6 +23,12 @@ class _SplashViewBodyState extends State<SplashViewBody>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        final authBloc = context.read<AuthBloc>();
+        authBloc.add(const AuthCheckRequested());
+      }
+    });
     initAnimation();
     navigateToNextView();
   }
@@ -44,15 +53,23 @@ class _SplashViewBodyState extends State<SplashViewBody>
   void navigateToNextView() {
     Future.delayed(const Duration(seconds: 2), () {
       if (!mounted) return; // <- Make sure widget still exists
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const OnboardingView()),
-      );
-      // if (AuthHelper.isUserLoggedIn()) {
-      //   context.go(AppRouter.kHomeView);
-      // }else{
-      //   context.go(AppRouter.kOnboardingView);
-      // }
+      if (mounted) {
+        final state = context.read<AuthBloc>().state;
+
+        if (state.status == AuthStatus.authenticated) {
+          // Navigate to home if authenticated
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const HomeView()),
+          );
+        } else if (state.status == AuthStatus.unauthenticated) {
+          // Navigate to login if not authenticated
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const OnboardingView()),
+          );
+        }
+      }
     });
   }
 
