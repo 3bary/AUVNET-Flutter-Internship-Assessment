@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class PromoBanner extends StatefulWidget {
@@ -21,15 +22,15 @@ class _PromoBannerState extends State<PromoBanner> {
     return Column(
       children: [
         SizedBox(
-          height: 180,
+          height: 180.h,
           child: PageView.builder(
             controller: _controller,
             itemCount: _images.length,
             itemBuilder: (context, index) {
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8),
+                padding: EdgeInsets.symmetric(horizontal: 8.w),
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                   child: Image.asset(
                     _images[index],
                     fit: BoxFit.cover,
@@ -40,16 +41,16 @@ class _PromoBannerState extends State<PromoBanner> {
             },
           ),
         ),
-        SizedBox(height: 12),
+        SizedBox(height: 12.h),
         SmoothPageIndicator(
           controller: _controller,
           count: _images.length,
           effect: WormEffect(
             activeDotColor: Colors.deepPurple,
             dotColor: Colors.grey.shade300,
-            dotHeight: 8,
-            dotWidth: 8,
-            spacing: 8,
+            dotHeight: 8.r,
+            dotWidth: 8.r,
+            spacing: 8.r,
           ),
         ),
       ],

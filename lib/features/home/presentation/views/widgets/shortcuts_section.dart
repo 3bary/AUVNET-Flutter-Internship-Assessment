@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ShortcutsList extends StatelessWidget {
   final List<Map<String, dynamic>> shortcuts = [
@@ -34,32 +35,32 @@ class ShortcutsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 100,
+      height: 100.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
         itemCount: shortcuts.length,
-        separatorBuilder: (context, _) => SizedBox(width: 16),
+        separatorBuilder: (context, _) => SizedBox(width: 16.w),
         itemBuilder: (context, index) {
           final item = shortcuts[index];
 
           return Column(
             children: [
               Container(
-                width: 56,
-                height: 56,
+                width: 56.w,
+                height: 56.w,
                 decoration: BoxDecoration(
                   color: Color(0xFFFFF2EF), // soft peach background
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                 ),
                 child: Center(
-                  child: Icon(item['icon'], color: item['color'], size: 28),
+                  child: Icon(item['icon'], color: item['color'], size: 28.sp),
                 ),
               ),
-              SizedBox(height: 6),
+              SizedBox(height: 6.h),
               Text(
                 item['label'],
-                style: TextStyle(fontSize: 12),
+                style: TextStyle(fontSize: 12.sp),
                 textAlign: TextAlign.center,
               ),
             ],
