@@ -1,3 +1,5 @@
+import 'package:auvnet_app/features/home/presentation/views/widgets/promo_banner.dart';
+import 'package:auvnet_app/features/home/presentation/views/widgets/service_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,42 +30,48 @@ class HomeViewContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[50],
-      body: SafeArea(
-        child: BlocBuilder<HomeBloc, HomeState>(
-          builder: (context, state) {
-            if (state.status == HomeStatus.loading) {
-              return const Center(child: CircularProgressIndicator());
-            }
+      body: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          if (state.status == HomeStatus.loading) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            if (state.status == HomeStatus.failure) {
-              return Center(child: Text('Error: ${state.errorMessage}'));
-            }
+          if (state.status == HomeStatus.failure) {
+            return Center(child: Text('Error: ${state.errorMessage}'));
+          }
 
-            return RefreshIndicator(
-              onRefresh: () async {
-                context.read<HomeBloc>().add(LoadHomeData());
-              },
-              child: ListView(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                children: [
-                  _buildHeader(),
-                  SizedBox(height: 16.h),
-                  _buildServices(context, state.services),
-                  SizedBox(height: 24.h),
-                  _buildCouponCard(),
-                  SizedBox(height: 24.h),
-                  _buildShortcuts(),
-                  SizedBox(height: 24.h),
-                  _buildPromoBanner(),
-                  SizedBox(height: 24.h),
-                  _buildPopularRestaurants(context, state.restaurants),
-                  SizedBox(height: 32.h),
-                ],
-              ),
-            );
-          },
-        ),
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<HomeBloc>().add(LoadHomeData());
+            },
+            child: ListView(
+              children: [
+                _buildHeader(),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16.h),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 6.h),
+                      _buildSectionTitle("Services:"),
+                      SizedBox(height: 18.h),
+                      _buildServices(context, state.services),
+                      SizedBox(height: 24.h),
+                      _buildCouponCard(),
+                      SizedBox(height: 24.h),
+                      _buildShortcuts(),
+                      SizedBox(height: 24.h),
+                      Align(alignment: Alignment.center, child: PromoBanner()),
+                      SizedBox(height: 24.h),
+                      _buildPopularRestaurants(context, state.restaurants),
+                      SizedBox(height: 32.h),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
       ),
       bottomNavigationBar: _buildBottomNavigationBar(),
     );
@@ -77,9 +85,12 @@ class HomeViewContent extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.only(
+          bottomRight: Radius.circular(16.r),
+          bottomLeft: Radius.circular(16.r),
+        ),
       ),
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(35.w),
       child: Row(
         children: [
           Expanded(
@@ -88,21 +99,21 @@ class HomeViewContent extends StatelessWidget {
               children: [
                 Text(
                   "Delivering to",
-                  style: TextStyle(color: Colors.white70, fontSize: 12.sp),
+                  style: TextStyle(color: Colors.black, fontSize: 12.sp),
                 ),
                 Text(
                   "Al Satwa, 81A Street",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.black,
                     fontWeight: FontWeight.bold,
-                    fontSize: 14.sp,
+                    fontSize: 16.sp,
                   ),
                 ),
                 SizedBox(height: 8.h),
                 Text(
                   "Hi hepa!",
                   style: TextStyle(
-                    fontSize: 24.sp,
+                    fontSize: 30.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
@@ -121,52 +132,13 @@ class HomeViewContent extends StatelessWidget {
 
   Widget _buildServices(BuildContext context, List<ServiceModel> services) {
     return SizedBox(
-      height: 140.h,
+      height: 180.h,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         itemCount: services.length,
         itemBuilder: (context, index) {
           final service = services[index];
-          return SizedBox(
-            width: 120.w,
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16.r),
-              ),
-              child: Padding(
-                padding: EdgeInsets.all(12.w),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      _getServiceIcon(service.title),
-                      size: 32.sp,
-                      color: Colors.deepPurple,
-                    ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      "${service.discount}",
-                      style: TextStyle(
-                        color: Colors.deepPurple,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                    SizedBox(height: 4.h),
-                    Text(
-                      service.title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 13.sp,
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          );
+          return ServiceCard(service: service);
         },
         separatorBuilder: (_, _) => SizedBox(width: 12.w),
       ),
@@ -237,13 +209,6 @@ class HomeViewContent extends StatelessWidget {
         },
         separatorBuilder: (_, _) => SizedBox(width: 16.w),
       ),
-    );
-  }
-
-  Widget _buildPromoBanner() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(16.r),
-      child: Image.asset('assets/krispy_kreme_banner.jpg', fit: BoxFit.cover),
     );
   }
 
@@ -321,6 +286,13 @@ class HomeViewContent extends StatelessWidget {
         BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
         BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
       ],
+    );
+  }
+
+  Widget _buildSectionTitle(String title) {
+    return Text(
+      title,
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
     );
   }
 }
