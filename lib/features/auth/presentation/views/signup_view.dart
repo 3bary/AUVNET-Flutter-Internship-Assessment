@@ -75,7 +75,6 @@ class _SignUpViewState extends State<SignUpView> {
                   height: 336.h,
                   fit: BoxFit.contain,
                 ),
-
                 // Email Field
                 AuthInputField(
                   controller: _emailController,
