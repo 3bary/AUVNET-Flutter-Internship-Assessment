@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3aea0a6d-7356-47ae-a878-352e9bb4713d" name="Changes" comment="    - Created a new `PromoBanner` widget that displays a carousel of promotional images.&#10;    - Extracted the service display into a reusable `ServiceCard` widget.">
-      <change afterPath="$PROJECT_DIR$/assets/icons/home_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/widgets/custom_bottom_nav_bar.dart" afterDir="false" />
+    <list default="true" id="3aea0a6d-7356-47ae-a878-352e9bb4713d" name="Changes" comment="feat: Implement tab navigation with custom bottom bar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/icons/home_icon.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/views/home_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/home_view.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/views/widgets/custom_bottom_nav_bar.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/widgets/custom_bottom_nav_bar.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -78,6 +78,7 @@
       <recent name="$PROJECT_DIR$/assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/lib/features/home/presentation/views/widgets" />
       <recent name="$PROJECT_DIR$/lib/features/home/data/models" />
       <recent name="$PROJECT_DIR$/lib/features/auth/presentation/view_model/auth_bloc" />
     </key>
@@ -217,7 +218,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750377687522</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="feat: Implement tab navigation with custom bottom bar">
+      <option name="closed" value="true" />
+      <created>1750379073506</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1750379073506</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -246,6 +255,7 @@
     <MESSAGE value="feat: Integrate HomeBloc with HomeView to display dynamic data" />
     <MESSAGE value="Refactor: Enhance HomeView with dynamic data and responsive UI" />
     <MESSAGE value="    - Created a new `PromoBanner` widget that displays a carousel of promotional images.&#10;    - Extracted the service display into a reusable `ServiceCard` widget." />
-    <option name="LAST_COMMIT_MESSAGE" value="    - Created a new `PromoBanner` widget that displays a carousel of promotional images.&#10;    - Extracted the service display into a reusable `ServiceCard` widget." />
+    <MESSAGE value="feat: Implement tab navigation with custom bottom bar" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Implement tab navigation with custom bottom bar" />
   </component>
 </project>
