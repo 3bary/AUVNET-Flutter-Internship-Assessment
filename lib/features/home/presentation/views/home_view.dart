@@ -1,3 +1,8 @@
+import 'package:auvnet_app/features/home/presentation/views/tabs/cart_view.dart';
+import 'package:auvnet_app/features/home/presentation/views/tabs/categories_view.dart';
+import 'package:auvnet_app/features/home/presentation/views/tabs/delivery_view.dart';
+import 'package:auvnet_app/features/home/presentation/views/tabs/profile_view.dart';
+import 'package:auvnet_app/features/home/presentation/views/widgets/custom_bottom_nav_bar.dart';
 import 'package:auvnet_app/features/home/presentation/views/widgets/promo_banner.dart';
 import 'package:auvnet_app/features/home/presentation/views/widgets/service_card.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,56 +29,95 @@ class HomeView extends StatelessWidget {
   }
 }
 
-class HomeViewContent extends StatelessWidget {
+class HomeViewContent extends StatefulWidget {
   const HomeViewContent({super.key});
+
+  @override
+  State<HomeViewContent> createState() => _HomeViewContentState();
+}
+
+class _HomeViewContentState extends State<HomeViewContent> {
+  int _currentIndex = 0;
+
+  final List<Widget> _screens = [
+    const _HomeScreen(),
+    const CategoriesView(),
+    const DeliveryView(),
+    const CartView(),
+    const ProfileView(),
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<HomeBloc, HomeState>(
-        builder: (context, state) {
-          if (state.status == HomeStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state.status == HomeStatus.failure) {
-            return Center(child: Text('Error: ${state.errorMessage}'));
-          }
-
-          return RefreshIndicator(
-            onRefresh: () async {
-              context.read<HomeBloc>().add(LoadHomeData());
-            },
-            child: ListView(
-              children: [
-                _buildHeader(),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 6.h),
-                      _buildSectionTitle("Services:"),
-                      SizedBox(height: 18.h),
-                      _buildServices(context, state.services),
-                      SizedBox(height: 24.h),
-                      _buildCouponCard(),
-                      SizedBox(height: 24.h),
-                      _buildShortcuts(),
-                      SizedBox(height: 24.h),
-                      Align(alignment: Alignment.center, child: PromoBanner()),
-                      SizedBox(height: 24.h),
-                      _buildPopularRestaurants(context, state.restaurants),
-                      SizedBox(height: 32.h),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
+      body: _screens[_currentIndex],
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: _currentIndex,
+        onTap: _onItemTapped,
       ),
-      bottomNavigationBar: _buildBottomNavigationBar(),
+    );
+  }
+}
+
+class _HomeScreen extends StatelessWidget {
+  const _HomeScreen();
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<HomeBloc, HomeState>(
+      builder: (context, state) {
+        if (state.status == HomeStatus.loading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (state.status == HomeStatus.failure) {
+          return Center(child: Text('Error: ${state.errorMessage}'));
+        }
+
+        return RefreshIndicator(
+          onRefresh: () async {
+            context.read<HomeBloc>().add(LoadHomeData());
+          },
+          child: ListView(
+            children: [
+              _buildHeader(),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 6.h),
+                    _buildSectionTitle("Services:"),
+                    SizedBox(height: 18.h),
+                    _buildServices(context, state.services),
+                    SizedBox(height: 18.h),
+                    _buildCouponCard(),
+                    SizedBox(height: 14.h),
+                    _buildSectionTitle("Shortcuts:"),
+                    SizedBox(height: 20.h),
+                    _buildShortcuts(),
+                    SizedBox(height: 24.h),
+                    const Align(
+                      alignment: Alignment.center,
+                      child: PromoBanner(),
+                    ),
+                    SizedBox(height: 24.h),
+                    _buildSectionTitle("Popular restaurants nearby:"),
+                    _buildPopularRestaurants(context, state.restaurants),
+                    SizedBox(height: 32.h),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -219,10 +263,6 @@ class HomeViewContent extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Popular restaurants nearby",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16.sp),
-        ),
         SizedBox(height: 12.h),
         SizedBox(
           height: 120.h,
@@ -268,31 +308,10 @@ class HomeViewContent extends StatelessWidget {
     );
   }
 
-  Widget _buildBottomNavigationBar() {
-    return BottomNavigationBar(
-      currentIndex: 0,
-      selectedItemColor: Colors.deepPurple,
-      unselectedItemColor: Colors.grey,
-      items: const [
-        BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.grid_view),
-          label: "Categories",
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.delivery_dining),
-          label: "Deliver",
-        ),
-        BottomNavigationBarItem(icon: Icon(Icons.shopping_cart), label: "Cart"),
-        BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
-      ],
-    );
-  }
-
   Widget _buildSectionTitle(String title) {
     return Text(
       title,
-      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.sp),
+      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
     );
   }
 }

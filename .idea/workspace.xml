@@ -4,13 +4,11 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3aea0a6d-7356-47ae-a878-352e9bb4713d" name="Changes" comment="Refactor: Enhance HomeView with dynamic data and responsive UI">
-      <change afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/widgets/promo_banner.dart" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/widgets/service_card.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    <list default="true" id="3aea0a6d-7356-47ae-a878-352e9bb4713d" name="Changes" comment="    - Created a new `PromoBanner` widget that displays a carousel of promotional images.&#10;    - Extracted the service display into a reusable `ServiceCard` widget.">
+      <change afterPath="$PROJECT_DIR$/assets/icons/home_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/widgets/custom_bottom_nav_bar.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/views/home_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/home_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,26 +54,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/mnt/nvme0n1p3/Flutter Projects/auvnet_app/assets&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Flutter.main.dart.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "master",
+    "io.flutter.reload.alreadyRun": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/mnt/nvme0n1p3/Flutter Projects/auvnet_app/assets/icons",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/assets/icons" />
       <recent name="$PROJECT_DIR$/assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -210,7 +209,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750372823042</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="    - Created a new `PromoBanner` widget that displays a carousel of promotional images.&#10;    - Extracted the service display into a reusable `ServiceCard` widget.">
+      <option name="closed" value="true" />
+      <created>1750377687522</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1750377687522</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -238,6 +245,7 @@
     <MESSAGE value="feat: Add discount field to ServiceModel" />
     <MESSAGE value="feat: Integrate HomeBloc with HomeView to display dynamic data" />
     <MESSAGE value="Refactor: Enhance HomeView with dynamic data and responsive UI" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor: Enhance HomeView with dynamic data and responsive UI" />
+    <MESSAGE value="    - Created a new `PromoBanner` widget that displays a carousel of promotional images.&#10;    - Extracted the service display into a reusable `ServiceCard` widget." />
+    <option name="LAST_COMMIT_MESSAGE" value="    - Created a new `PromoBanner` widget that displays a carousel of promotional images.&#10;    - Extracted the service display into a reusable `ServiceCard` widget." />
   </component>
 </project>

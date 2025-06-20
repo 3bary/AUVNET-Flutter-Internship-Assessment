@@ -75,6 +75,7 @@ flutter:
     - assets/nawel.png
     - assets/user.jpg
     - assets/krispy_kreme_banner.jpg
+    - assets/icons/home_icon.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
