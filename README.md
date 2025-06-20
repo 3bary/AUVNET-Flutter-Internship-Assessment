@@ -27,13 +27,13 @@ The codebase is intentionally kept lightweight so you can focus on the architect
 
 1. **Prerequisites**
    * Flutter 3.19+ (`flutter --version`)
-   * A Firebase project (Email/Password auth enabled)
+   * A Firebase project (Email/Password auth enabled, FirebaseFiresore enabled)
    * Android Studio / Xcode for platform tooling
 
 2. **Clone the repo**
    ```bash
-   git clone https://github.com/<your-org>/auvnet_app.git
-   cd auvnet_app
+   git clone https://github.com/3bary/AUVNET-Flutter-Internship-Assessment.git
+   cd AUVNET-Flutter-Internship-Assessment
    ```
 
 3. **Install packages**
