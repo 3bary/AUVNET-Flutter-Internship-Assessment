@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3aea0a6d-7356-47ae-a878-352e9bb4713d" name="Changes" comment="Refactor: Simplify SignUpView password validation">
-      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/views/signup_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/views/signup_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
+    <list default="true" id="3aea0a6d-7356-47ae-a878-352e9bb4713d" name="Changes" comment="Refactor: Separate Login and Signup UI into Body Widgets">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/views/widgets/auth_button.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/views/widgets/auth_button.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -274,7 +275,23 @@
       <option name="project" value="LOCAL" />
       <updated>1750385383352</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="remove unused dependencies">
+      <option name="closed" value="true" />
+      <created>1750385478997</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1750385478997</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Refactor: Separate Login and Signup UI into Body Widgets">
+      <option name="closed" value="true" />
+      <created>1750385752115</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1750385752115</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -310,6 +327,8 @@
     <MESSAGE value="Refactor: Extract OnboardingView components into separate widgets" />
     <MESSAGE value="Refactor: Extract AuthButton and AuthInputField widgets" />
     <MESSAGE value="Refactor: Simplify SignUpView password validation" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor: Simplify SignUpView password validation" />
+    <MESSAGE value="remove unused dependencies" />
+    <MESSAGE value="Refactor: Separate Login and Signup UI into Body Widgets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor: Separate Login and Signup UI into Body Widgets" />
   </component>
 </project>
