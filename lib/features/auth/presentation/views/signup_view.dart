@@ -3,7 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/utils/assets.dart';
+import '../../../home/presentation/views/home_view.dart';
 import '../view_model/auth_bloc/auth_bloc.dart';
+import 'widgets/auth_button.dart';
+import 'widgets/auth_input_field.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -53,31 +56,40 @@ class _SignUpViewState extends State<SignUpView> {
             SnackBar(content: Text(state.errorMessage ?? 'Signup failed')),
           );
         } else if (state.status == AuthStatus.authenticated) {
-          ScaffoldMessenger.of(
+          Navigator.pushReplacement(
             context,
-          ).showSnackBar(const SnackBar(content: Text('Signup successful')));
-          Navigator.pop(context); // navigate to login or home
+            MaterialPageRoute(builder: (context) => const HomeView()),
+          );
         }
       },
       child: Scaffold(
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24.0),
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
             child: Column(
               children: [
                 SizedBox(height: 60.h),
-                Image.asset(kAppLogo, width: 336.w, height: 336.h),
+                Image.asset(
+                  kAppLogo,
+                  width: 336.w,
+                  height: 336.h,
+                  fit: BoxFit.contain,
+                ),
 
-                _buildInputField(
+                // Email Field
+                AuthInputField(
                   controller: _emailController,
                   hintText: 'mail',
                   icon: Icons.mail_outline,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
                 ),
 
                 SizedBox(height: 16.h),
 
-                _buildInputField(
+                // Password Field
+                AuthInputField(
                   controller: _passwordController,
                   hintText: 'password',
                   icon: Icons.lock_outline,
@@ -88,11 +100,13 @@ class _SignUpViewState extends State<SignUpView> {
                       _isPasswordVisible = !_isPasswordVisible;
                     });
                   },
+                  textInputAction: TextInputAction.next,
                 ),
 
                 SizedBox(height: 16.h),
 
-                _buildInputField(
+                // Confirm Password Field
+                AuthInputField(
                   controller: _confirmPasswordController,
                   hintText: 'confirm password',
                   icon: Icons.lock_outline,
@@ -103,6 +117,8 @@ class _SignUpViewState extends State<SignUpView> {
                       _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
                     });
                   },
+                  textInputAction: TextInputAction.done,
+                  onSubmitted: (_) => _onSignUpPressed(context),
                 ),
 
                 SizedBox(height: 32.h),
@@ -111,34 +127,12 @@ class _SignUpViewState extends State<SignUpView> {
                 BlocBuilder<AuthBloc, AuthState>(
                   builder: (context, state) {
                     final isLoading = state.status == AuthStatus.loading;
-
-                    return SizedBox(
+                    return AuthButton(
                       width: double.infinity,
                       height: 56.h,
-                      child: ElevatedButton(
-                        onPressed: isLoading
-                            ? null
-                            : () => _onSignUpPressed(context),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF8A2BE2),
-                          foregroundColor: Colors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12.r),
-                          ),
-                        ),
-                        child: isLoading
-                            ? const CircularProgressIndicator(
-                                color: Colors.white,
-                              )
-                            : Text(
-                                'Sign Up',
-                                style: TextStyle(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                              ),
-                      ),
+                      text: 'Sign Up',
+                      onPressed: () => _onSignUpPressed(context),
+                      isLoading: isLoading,
                     );
                   },
                 ),
@@ -161,58 +155,8 @@ class _SignUpViewState extends State<SignUpView> {
                 ),
 
                 SizedBox(height: 40.h),
-                Container(
-                  width: 134.w,
-                  height: 5.h,
-                  decoration: BoxDecoration(
-                    color: Colors.black,
-                    borderRadius: BorderRadius.circular(2.5.r),
-                  ),
-                ),
-                SizedBox(height: 8.h),
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInputField({
-    required TextEditingController controller,
-    required String hintText,
-    required IconData icon,
-    bool isPassword = false,
-    bool isVisible = false,
-    VoidCallback? toggleVisibility,
-  }) {
-    return Container(
-      height: 56.h,
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(12.r),
-      ),
-      child: TextField(
-        controller: controller,
-        obscureText: isPassword && !isVisible,
-        decoration: InputDecoration(
-          hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[600], fontSize: 16.sp),
-          prefixIcon: Icon(icon, color: Colors.grey[600], size: 22.sp),
-          suffixIcon: isPassword
-              ? IconButton(
-                  icon: Icon(
-                    isVisible ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.grey[600],
-                    size: 22.sp,
-                  ),
-                  onPressed: toggleVisibility,
-                )
-              : null,
-          border: InputBorder.none,
-          contentPadding: EdgeInsets.symmetric(
-            horizontal: 16.w,
-            vertical: 16.h,
           ),
         ),
       ),
