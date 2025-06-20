@@ -4,17 +4,9 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3aea0a6d-7356-47ae-a878-352e9bb4713d" name="Changes" comment="Refactor: Extract HomeViewBody from HomeView">
-      <change afterPath="$PROJECT_DIR$/.idea/deviceManager.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/tabs/home_view_body.dart" afterDir="false" />
+    <list default="true" id="3aea0a6d-7356-47ae-a878-352e9bb4713d" name="Changes" comment="feat: Integrate flutter_screenutil for responsive UI">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/views/home_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/home_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/views/tabs/cart_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/tabs/cart_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/views/tabs/categories_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/tabs/categories_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/views/tabs/delivery_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/tabs/delivery_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/views/tabs/profile_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/tabs/profile_view.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/views/widgets/promo_banner.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/widgets/promo_banner.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/home/presentation/views/widgets/shortcuts_section.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/home/presentation/views/widgets/shortcuts_section.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/views/onboarding_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/views/onboarding_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -249,7 +241,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750382890957</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="feat: Integrate flutter_screenutil for responsive UI">
+      <option name="closed" value="true" />
+      <created>1750382915139</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1750382915139</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -281,6 +281,7 @@
     <MESSAGE value="feat: Implement tab navigation with custom bottom bar" />
     <MESSAGE value="Refactor: Extract HomeView components into separate widgets" />
     <MESSAGE value="Refactor: Extract HomeViewBody from HomeView" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor: Extract HomeViewBody from HomeView" />
+    <MESSAGE value="feat: Integrate flutter_screenutil for responsive UI" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: Integrate flutter_screenutil for responsive UI" />
   </component>
 </project>
