@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3aea0a6d-7356-47ae-a878-352e9bb4713d" name="Changes" comment="Refactor: Extract OnboardingView components into separate widgets">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/views/login_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/views/login_view.dart" afterDir="false" />
+    <list default="true" id="3aea0a6d-7356-47ae-a878-352e9bb4713d" name="Changes" comment="Refactor: Extract AuthButton and AuthInputField widgets">
       <change beforePath="$PROJECT_DIR$/lib/features/auth/presentation/views/signup_view.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/features/auth/presentation/views/signup_view.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -259,7 +257,15 @@
       <option name="project" value="LOCAL" />
       <updated>1750383425323</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Refactor: Extract AuthButton and AuthInputField widgets">
+      <option name="closed" value="true" />
+      <created>1750385204098</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1750385204098</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -293,6 +299,7 @@
     <MESSAGE value="Refactor: Extract HomeViewBody from HomeView" />
     <MESSAGE value="feat: Integrate flutter_screenutil for responsive UI" />
     <MESSAGE value="Refactor: Extract OnboardingView components into separate widgets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor: Extract OnboardingView components into separate widgets" />
+    <MESSAGE value="Refactor: Extract AuthButton and AuthInputField widgets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor: Extract AuthButton and AuthInputField widgets" />
   </component>
 </project>
